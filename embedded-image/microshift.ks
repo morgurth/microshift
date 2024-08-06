@@ -8,7 +8,7 @@ reboot
 network --bootproto=dhcp --device=link --activate --onboot=on
 
 # Configure ostree
-ostreesetup --nogpg --osname=rhel --remote=edge --url=file:///run/install/repo/ostree/repo --ref=rhel/9/x86_64/edge
+ostreesetup --nogpg --osname=rhel --remote=edge --url=file:///run/install/repo/ostree/repo --ref=rhel/9.3/x86_64/edge
 
 # Configure disk, use 20 GB for root partition
 zerombr

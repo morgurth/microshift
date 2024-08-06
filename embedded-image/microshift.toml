@@ -1,7 +1,7 @@
 name = "microshift"
 
 description = ""
-version = "0.1.0"
+version = "0.1.1"
 modules = []
 groups = []
 
@@ -29,6 +29,82 @@ ports = ["22:tcp", "80:tcp", "443:tcp", "5353:udp", "6443:tcp", "30000-32767:tcp
 
 [customizations.services]
 enabled = ["microshift", "sshd"]
+
+[[customizations.files]]
+path = "/etc/microshift/config.yaml"
+data = """
+dns:
+  baseDomain: microshift.ocplab.com
+"""
+
+#### GitOps Configuration ########
+[[customizations.directories]]
+path = "/etc/microshift/manifests.d/020-microshift-gitops/config"
+
+[[customizations.files]]
+path = "/usr/lib/microshift/manifests.d/020-microshift-gitops/config/argocd-cm.yaml"
+data = """
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-cm
+  namespace: openshift-gitps
+  labels:
+    app.kubernetes.io/name: argocd-cm
+    app.kubernetes.io/part-of: argocd
+data:
+  application.resourceTrackingMethod: annotation
+  kustomize.buildOptions: '--enable-helm --enable-alpha-plugins'
+  resource.customizations.health.PersistentVolumeClaim: |
+    hs = {}
+    if obj.status ~= nil then
+      if obj.status.phase ~= nil then
+        if obj.status.phase == "Pending" then
+          hs.status = "Healthy"
+          hs.message = obj.status.phase
+          return hs
+        end
+        if obj.status.phase == "Bound" then
+          hs.status = "Healthy"
+          hs.message = obj.status.phase
+          return hs
+        end
+      end
+    end
+    hs.status = "Progressing"
+    hs.message = "Waiting for PVC"
+    return hs
+"""
+
+###### Bootstrap cluster configuraton via GitOps
+[[customizations.directories]]
+path = "/etc/microshift/manifests.d/030-bootstrap"
+
+[[customizations.files]]
+path = "/usr/lib/microshift/manifests.d/030-bootstrap/cluster-config-bootstrap.yaml"
+data = """
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cluster-config-bootstrap
+  namespace: openshift-gitops
+spec:
+  destination:
+    namespace: openshift-gitops
+    server: https://kubernetes.default.svc
+  ignoreDifferences:
+  - group: argoproj.io
+    jsonPointers:
+    - /spec/syncPolicy/automated
+    kind: Application
+    managedFieldsManagers:
+    - argocd-server
+  project: default
+  source:
+    path: bootstrap/microshift/base
+    repoURL:  https://github.com/gnunn-gitops/microshift.git
+    targetRevision: HEAD
+"""
 
 ########## Optiional to Support ACM Self-Register ##############################
 
