@@ -1,0 +1,24 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: openshift-gitops
+resources:
+  - namespace.yaml
+  - application-controller
+  - cluster-rbac
+  - config
+  - crds
+  - redis
+  - repo-server
+patches:
+  - path: redis-patch-args.yaml
+    target:
+      kind: Deployment
+      name: argocd-redis
+      labelSelector: app.kubernetes.io/part-of=argocd
+images:
+  - name: quay.io/argoproj/argocd
+    newName: registry.redhat.io/openshift-gitops-1/argocd-rhel9
+    digest: "sha256:9e77cbf2cca74e09b4be037cb95673e510e8a821d2e27de04777bd6d8b4abb62"
+  - name: redis
+    newName: registry.redhat.io/rhel9/redis-6
+    digest: "sha256:91b755b9fb09b7299896f9a90f7d2752fdba36a8e6e9b9d1ddc17f3f92466745"

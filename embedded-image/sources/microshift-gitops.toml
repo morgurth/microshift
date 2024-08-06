@@ -1,0 +1,8 @@
+id = "microshift-gitops-1.12"
+name = "Red Hat Microshift GitOps 1.12"
+type = "yum-baseurl"
+url = "https://cdn.redhat.com/content/dist/layered/rhel9/x86_64/gitops/1.12/os"
+check_gpg = true
+check_ssl = true
+system = false
+rhsm = true

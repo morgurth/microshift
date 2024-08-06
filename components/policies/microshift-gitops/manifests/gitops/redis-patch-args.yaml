@@ -1,0 +1,9 @@
+- op: add
+  path: /spec/template/spec/containers/0/args/0
+  value: "redis-server"
+- op: add
+  path: /spec/template/spec/containers/0/args/1
+  value: "--protected-mode"
+- op: add
+  path: /spec/template/spec/containers/0/args/2
+  value: "no"
