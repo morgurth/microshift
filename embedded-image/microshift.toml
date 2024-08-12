@@ -41,18 +41,15 @@ dns:
 [[customizations.directories]]
 path = "/etc/microshift/manifests.d/020-microshift-gitops"
 
-[[customizations.directories]]
-path = "/etc/microshift/manifests.d/020-microshift-gitops/config"
-
 [[customizations.files]]
-path = "/etc/microshift/manifests.d/020-microshift-gitops/config/kustomization.yaml"
+path = "/etc/microshift/manifests.d/020-microshift-gitops/kustomization.yaml"
 data = """
 resources:
 - argocd-cm.yaml
 """
 
 [[customizations.files]]
-path = "/etc/microshift/manifests.d/020-microshift-gitops/config/argocd-cm.yaml"
+path = "/etc/microshift/manifests.d/020-microshift-gitops/argocd-cm.yaml"
 data = """
 apiVersion: v1
 kind: ConfigMap

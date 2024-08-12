@@ -17,5 +17,7 @@ spec:
     server: "https://kubernetes.default.svc"
     namespace: external-secrets
   syncPolicy:
+    automated:
+      selfHeal: true
     syncOptions:
     - CreateNamespace=true
