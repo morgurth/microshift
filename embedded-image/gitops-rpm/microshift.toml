@@ -1,0 +1,130 @@
+name = "microshift"
+
+description = ""
+version = "0.1.3"
+modules = []
+groups = []
+
+[[packages]]
+name = "microshift"
+version = "*"
+
+[[packages]]
+name = "microshift-gitops"
+version = "*"
+
+[[packages]]
+name = "openshift-clients"
+version = ""
+
+[[packages]]
+name = "git"
+version = "*"
+
+[customizations.firewall]
+ports = ["22:tcp", "80:tcp", "443:tcp", "5353:udp", "6443:tcp", "30000-32767:tcp", "30000-32767:udp"]
+
+[customizations.services]
+enabled = ["microshift", "sshd"]
+
+#### GitOps Configuration ########
+[[customizations.directories]]
+path = "/etc/microshift/manifests.d/020-microshift-gitops"
+
+[[customizations.files]]
+path = "/etc/microshift/manifests.d/020-microshift-gitops/kustomization.yaml"
+data = """
+resources:
+- argocd-cm.yaml
+"""
+
+[[customizations.files]]
+path = "/etc/microshift/manifests.d/020-microshift-gitops/argocd-cm.yaml"
+data = """
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-cm
+  namespace: openshift-gitops
+  labels:
+    app.kubernetes.io/name: argocd-cm
+    app.kubernetes.io/part-of: argocd
+data:
+  application.resourceTrackingMethod: annotation
+  kustomize.buildOptions: '--enable-helm --enable-alpha-plugins'
+  resource.customizations.health.PersistentVolumeClaim: |
+    hs = {}
+    if obj.status ~= nil then
+      if obj.status.phase ~= nil then
+        if obj.status.phase == "Pending" then
+          hs.status = "Healthy"
+          hs.message = obj.status.phase
+          return hs
+        end
+        if obj.status.phase == "Bound" then
+          hs.status = "Healthy"
+          hs.message = obj.status.phase
+          return hs
+        end
+      end
+    end
+    hs.status = "Progressing"
+    hs.message = "Waiting for PVC"
+    return hs
+"""
+
+###### Bootstrap cluster configuraton via GitOps
+[[customizations.directories]]
+path = "/etc/microshift/manifests.d/030-bootstrap"
+
+[[customizations.files]]
+path = "/etc/microshift/manifests.d/030-bootstrap/kustomization.yaml"
+data = """
+resources:
+- cluster-config-bootstrap.yaml
+"""
+
+[[customizations.files]]
+path = "/etc/microshift/manifests.d/030-bootstrap/cluster-config-bootstrap.yaml"
+data = """
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: cluster-config
+  namespace: openshift-gitops
+spec:
+  clusterResourceWhitelist:
+  - group: '*'
+    kind: '*'
+  description: Project for overall cluster configuration
+  destinations:
+  - namespace: '*'
+    server: https://kubernetes.default.svc
+  sourceRepos:
+  - '*'
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cluster-config-bootstrap
+  namespace: openshift-gitops
+spec:
+  destination:
+    namespace: openshift-gitops
+    server: https://kubernetes.default.svc
+  ignoreDifferences:
+  - group: argoproj.io
+    jsonPointers:
+    - /spec/syncPolicy/automated
+    kind: Application
+    managedFieldsManagers:
+    - argocd-server
+  project: cluster-config
+  source:
+    path: bootstrap/microshift/base
+    repoURL:  https://github.com/gnunn-gitops/microshift.git
+    targetRevision: HEAD
+  syncPolicy:
+    automated:
+      selfHeal: true
+"""

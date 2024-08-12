@@ -5,8 +5,7 @@ text
 reboot
 
 # Configure network to use DHCP and activate on boot
-network --bootproto=dhcp --device=link --activate --onboot=on --hostname=microshift
-
+network --bootproto=dhcp --device=link --activate --onboot=on
 # Configure ostree
 ostreesetup --nogpg --osname=rhel --remote=edge --url=file:///run/install/repo/ostree/repo --ref=rhel/9/x86_64/edge
 
@@ -21,7 +20,15 @@ part pv.01 --grow
 volgroup rhel pv.01
 logvol / --vgname=rhel --fstype=xfs --size=20000 --name=root
 
+################ Post Configuration #################
+
 %post --log=/var/log/anaconda/post-install.log --erroronfail
+
+# Configure ingress DNS for Microshift
+cat > /etc/microshift/config.yaml << EOF
+dns:
+  baseDomain: $HOSTNAME.ocplab.com
+EOF
 
 # Add the pull secret to CRI-O and set root user-only read/write permissions
 cat > /etc/crio/openshift-pull-secret << EOF

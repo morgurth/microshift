@@ -1,4 +1,4 @@
-name = "microshift"
+name = "microshift-acm"
 
 description = ""
 version = "0.1.3"
@@ -10,10 +10,6 @@ name = "microshift"
 version = "*"
 
 [[packages]]
-name = "microshift-gitops"
-version = "*"
-
-[[packages]]
 name = "openshift-clients"
 version = ""
 
@@ -21,21 +17,11 @@ version = ""
 name = "git"
 version = "*"
 
-[customizations]
-hostname = "microshift"
-
 [customizations.firewall]
 ports = ["22:tcp", "80:tcp", "443:tcp", "5353:udp", "6443:tcp", "30000-32767:tcp", "30000-32767:udp"]
 
 [customizations.services]
 enabled = ["microshift", "sshd"]
-
-[[customizations.files]]
-path = "/etc/microshift/config.yaml"
-data = """
-dns:
-  baseDomain: microshift.ocplab.com
-"""
 
 #### GitOps Configuration ########
 [[customizations.directories]]
