@@ -134,6 +134,9 @@ spec:
     path: bootstrap/microshift/base
     repoURL:  https://github.com/gnunn-gitops/microshift.git
     targetRevision: HEAD
+  syncPolicy:
+    automated:
+      selfHeal: true
 """
 
 ########## Optiional to Support ACM Self-Register ##############################
