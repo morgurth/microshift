@@ -1,7 +1,7 @@
 name = "microshift"
 
 description = ""
-version = "0.1.1"
+version = "0.1.3"
 modules = []
 groups = []
 
@@ -39,16 +39,26 @@ dns:
 
 #### GitOps Configuration ########
 [[customizations.directories]]
+path = "/etc/microshift/manifests.d/020-microshift-gitops"
+
+[[customizations.directories]]
 path = "/etc/microshift/manifests.d/020-microshift-gitops/config"
 
 [[customizations.files]]
-path = "/usr/lib/microshift/manifests.d/020-microshift-gitops/config/argocd-cm.yaml"
+path = "/etc/microshift/manifests.d/020-microshift-gitops/config/kustomization.yaml"
+data = """
+resources:
+- argocd-cm.yaml
+"""
+
+[[customizations.files]]
+path = "/etc/microshift/manifests.d/020-microshift-gitops/config/argocd-cm.yaml"
 data = """
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: argocd-cm
-  namespace: openshift-gitps
+  namespace: openshift-gitops
   labels:
     app.kubernetes.io/name: argocd-cm
     app.kubernetes.io/part-of: argocd
@@ -81,8 +91,31 @@ data:
 path = "/etc/microshift/manifests.d/030-bootstrap"
 
 [[customizations.files]]
-path = "/usr/lib/microshift/manifests.d/030-bootstrap/cluster-config-bootstrap.yaml"
+path = "/etc/microshift/manifests.d/030-bootstrap/kustomization.yaml"
 data = """
+resources:
+- cluster-config-bootstrap.yaml
+"""
+
+[[customizations.files]]
+path = "/etc/microshift/manifests.d/030-bootstrap/cluster-config-bootstrap.yaml"
+data = """
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: cluster-config
+  namespace: openshift-gitops
+spec:
+  clusterResourceWhitelist:
+  - group: '*'
+    kind: '*'
+  description: Project for overall cluster configuration
+  destinations:
+  - namespace: '*'
+    server: https://kubernetes.default.svc
+  sourceRepos:
+  - '*'
+---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -99,7 +132,7 @@ spec:
     kind: Application
     managedFieldsManagers:
     - argocd-server
-  project: default
+  project: cluster-config
   source:
     path: bootstrap/microshift/base
     repoURL:  https://github.com/gnunn-gitops/microshift.git
@@ -109,10 +142,10 @@ spec:
 ########## Optiional to Support ACM Self-Register ##############################
 
 [[customizations.directories]]
-path = "/etc/microshift/manifests.d/10-acm-crds"
+path = "/etc/microshift/manifests.d/010-acm-crds"
 
 [[customizations.directories]]
-path = "/etc/microshift/manifests.d/20-register-cluster"
+path = "/etc/microshift/manifests.d/011-register-cluster"
 
 [[customizations.directories]]
 path = "/etc/pki/ca-trust/source/anchors"

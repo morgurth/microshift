@@ -5,10 +5,10 @@ text
 reboot
 
 # Configure network to use DHCP and activate on boot
-network --bootproto=dhcp --device=link --activate --onboot=on
+network --bootproto=dhcp --device=link --activate --onboot=on --hostname=microshift
 
 # Configure ostree
-ostreesetup --nogpg --osname=rhel --remote=edge --url=file:///run/install/repo/ostree/repo --ref=rhel/9.3/x86_64/edge
+ostreesetup --nogpg --osname=rhel --remote=edge --url=file:///run/install/repo/ostree/repo --ref=rhel/9/x86_64/edge
 
 # Configure disk, use 20 GB for root partition
 zerombr
@@ -56,7 +56,7 @@ firewall-offline-cmd --zone=trusted --add-source=169.254.169.1
 # Make the KUBECONFIG from MicroShift directly available for the root user
 echo -e 'export KUBECONFIG=/var/lib/microshift/resources/kubeadmin/kubeconfig' >> /root/.profile
 
-########## Optional - Self-Register with ACM ##########################
+########## Self-Register with ACM ##########################
 # https://docs.redhat.com/en/documentation/red_hat_advanced_cluster_management_for_kubernetes/2.11/html-single/clusters/index#importing-managed-cluster-cli
 
 # Define token needed to register with ACM
@@ -66,24 +66,24 @@ TOKEN=<INSERT_TOKEN_HERE>
 AGENT_HOST=<INSERT_AGENT_HOST>
 
 # Create directories
-mkdir -p /etc/microshift/manifests.d/10-acm-crds
-mkdir -p /etc/microshift/manifests.d/20-register-cluster
+mkdir -p /etc/microshift/manifests.d/010-acm-crds
+mkdir -p /etc/microshift/manifests.d/011-register-cluster
 
 # Add CRDs from ACM Hub
 # Note this could be done by defining an RPM with the CRDs
-curl --cacert /etc/pki/ca-trust/source/anchors/R11.pem -H "Authorization: Bearer $TOKEN" https://$AGENT_HOST/agent-registration/crds/v1 > /etc/microshift/manifests.d/10-acm-crds/crds.yaml
+curl --cacert /etc/pki/ca-trust/source/anchors/R11.pem -H "Authorization: Bearer $TOKEN" https://$AGENT_HOST/agent-registration/crds/v1 > /etc/microshift/manifests.d/010-acm-crds/crds.yaml
 
 # Register agent
-curl --cacert /etc/pki/ca-trust/source/anchors/R11.pem -H "Authorization: Bearer $TOKEN" https://$AGENT_HOST/agent-registration/manifests/$HOSTNAME > /etc/microshift/manifests.d/20-register-cluster/register-cluster.yaml
+curl --cacert /etc/pki/ca-trust/source/anchors/R11.pem -H "Authorization: Bearer $TOKEN" https://$AGENT_HOST/agent-registration/manifests/$HOSTNAME > /etc/microshift/manifests.d/011-register-cluster/register-cluster.yaml
 
 # Output kustomization file for CRDs for Microshift to pickup
-cat > /etc/microshift/manifests.d/10-acm-crds/kustomization.yaml << EOF
+cat > /etc/microshift/manifests.d/010-acm-crds/kustomization.yaml << EOF
 resources:
 - crds.yaml
 EOF
 
 # Output kustomization file for register cluster for Microshift to pickup
-cat > /etc/microshift/manifests.d/20-register-cluster/kustomization.yaml << EOF
+cat > /etc/microshift/manifests.d/011-register-cluster/kustomization.yaml << EOF
 resources:
 - register-cluster.yaml
 EOF
