@@ -16,7 +16,7 @@ spec:
     - argocd-server
   project: cluster-config
   source:
-    path: bootstrap/microshift/base
+    path: bootstrap/oberlays/{{ fromClusterClaim "name" }}
     repoURL:  https://github.com/gnunn-gitops/microshift.git
     targetRevision: HEAD
   syncPolicy:

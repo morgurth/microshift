@@ -7,10 +7,11 @@ spec:
   - microshift
   predicates:
   - requiredClusterSelector:
-      labelSelector:
+      claimSelector:
         matchExpressions:
-        - key: microshift-gitops
-          operator: Exists
+        - key: product.open-cluster-management.io
+          operator: In
+          values: Microshift
 ---
 apiVersion: policy.open-cluster-management.io/v1
 kind: PlacementBinding
