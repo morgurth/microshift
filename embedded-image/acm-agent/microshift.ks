@@ -5,7 +5,10 @@ text
 reboot
 
 # Configure network to use DHCP and activate on boot
+# Note I am using DHCP to set hostname, if you cannot do that and just want to
+# to try things out simply add the --hostname to the end 
 network --bootproto=dhcp --device=link --activate --onboot=on
+
 # Configure ostree
 ostreesetup --nogpg --osname=rhel --remote=edge --url=file:///run/install/repo/ostree/repo --ref=rhel/9/x86_64/edge
 
