@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-cm
+  namespace: openshift-gitops
+  labels:
+    app.kubernetes.io/name: argocd-cm
+    app.kubernetes.io/part-of: argocd
+data:
+  application.resourceTrackingMethod: annotation
+  kustomize.buildOptions: '--enable-helm --enable-alpha-plugins'
+  resource.customizations.health.PersistentVolumeClaim: |
+    hs = {}
+    if obj.status ~= nil then
+      if obj.status.phase ~= nil then
+        if obj.status.phase == "Pending" then
+          hs.status = "Healthy"
+          hs.message = obj.status.phase
+          return hs
+        end
+        if obj.status.phase == "Bound" then
+          hs.status = "Healthy"
+          hs.message = obj.status.phase
+          return hs
+        end
+      end
+    end
+    hs.status = "Progressing"
+    hs.message = "Waiting for PVC"
+    return hs

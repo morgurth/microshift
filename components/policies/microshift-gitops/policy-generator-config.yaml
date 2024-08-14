@@ -11,7 +11,11 @@ policies:
   - name: policy-microshift-gitops
     remediationAction: enforce
     manifests:
-      - path: manifests/gitops
+      - path: manifests/gitops/argocd
+  - name: policy-microshift-bootstrap
+    remediationAction: enforce
+    manifests:
+      - path: manifests/gitops/bootstrap
 policySets:
   - name: "microshift-gitops"
     description: "Policy for bootstrapping cluster with gitops"

@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cluster-config-bootstrap
+  namespace: openshift-gitops
+spec:
+  destination:
+    namespace: openshift-gitops
+    server: https://kubernetes.default.svc
+  ignoreDifferences:
+  - group: argoproj.io
+    jsonPointers:
+    - /spec/syncPolicy/automated
+    kind: Application
+    managedFieldsManagers:
+    - argocd-server
+  project: cluster-config
+  source:
+    path: bootstrap/microshift/base
+    repoURL:  https://github.com/gnunn-gitops/microshift.git
+    targetRevision: HEAD
+  syncPolicy:
+    automated:
+      selfHeal: true

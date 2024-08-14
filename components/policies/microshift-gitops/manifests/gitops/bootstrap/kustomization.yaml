@@ -1,0 +1,3 @@
+resources:
+- cluster-config-project.yaml
+- cluster-config-bootstrap.yaml
