@@ -1,3 +1,4 @@
-- no way for imported cluster to automatically oin a ManagedClusterSet to help with Placements
+- no way to automatically add labels to ManagedCluster for imported cluster using agent registration flow
+- no way for imported cluster to automatically on a ManagedClusterSet to help with Placements
 - The ManagedClusterSet talks about selector: LabelSelector but doesn;t actually support it despite the global ManagedClusterSet using it
 - ACM registration Token is embedded in the ISO, not cool. Think we can do this better with FDO, look into it further
