@@ -16,6 +16,10 @@ policies:
     remediationAction: enforce
     manifests:
       - path: manifests/gitops/bootstrap
+  - name: microshift-eso
+    remediationAction: enforce
+    manifests:
+      - path: manifests/gitops/eso
 policySets:
   - name: "microshift-gitops"
     description: "Policy for bootstrapping Microshift with GitOps"
