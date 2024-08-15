@@ -2,6 +2,7 @@ namespace: acm-policies
 
 resources:
 - placement.yaml
+- managedclusterset.yaml
 
 generators:
 - policy-generator-config.yaml

@@ -3,14 +3,16 @@ kind: Placement
 metadata:
   name: placement-policy-microshift-gitops
 spec:
+  clusterSets:
+    - global
   predicates:
-  - requiredClusterSelector:
-      claimSelector:
-        matchExpressions:
-        - key: product.open-cluster-management.io
-          operator: In
-          values:
-            - Microshift
+    - requiredClusterSelector:
+        claimSelector:
+          matchExpressions:
+            - key: "product.open-cluster-management.io"
+              operator: In
+              values:
+                - MicroShift
 ---
 apiVersion: policy.open-cluster-management.io/v1
 kind: PlacementBinding
@@ -21,6 +23,6 @@ placementRef:
   kind: Placement
   name: placement-policy-microshift-gitops
 subjects:
-- apiGroup: policy.open-cluster-management.io
-  kind: PolicySet
-  name: microshift-gitops
+  - apiGroup: policy.open-cluster-management.io
+    kind: PolicySet
+    name: microshift-gitops

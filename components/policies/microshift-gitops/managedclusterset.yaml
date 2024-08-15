@@ -1,0 +1,15 @@
+apiVersion: cluster.open-cluster-management.io/v1beta2
+kind: ManagedClusterSet
+metadata:
+  name: microshift
+spec:
+  clusterSelector:
+    # selectorType LabelSelector is not supported by ACM for some reason, as a result
+    # there is no way to automatically add Microshift clusters registered via the
+    # agent registration flow to a ManagedClusterSet
+    #
+    # selectorType: LabelSelector
+    # labelSelector:
+    #   matchExpressions:
+    #     - key: microshiftVersion
+    #       operator: Exists
