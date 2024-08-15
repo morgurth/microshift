@@ -26,6 +26,7 @@ policySets:
     policies:
       - microshift-gitops
       - microshift-bootstrap
+      - microshift-eso
     generatePolicySetPlacement: false
     placement:
       name: placement-microshift-gitops

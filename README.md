@@ -1,3 +1,7 @@
+### Introduction
+
+This repo is a demo of using ACM + OpenShift GitOps to manage Microshift clusters. It
+
 To apply the ACM polcies the first time you will need to use `oc create` and not `oc apply` since the yaml is too large and will
 over the `last-configuration` annotation size limit. To deploy the policies do the following:
 
