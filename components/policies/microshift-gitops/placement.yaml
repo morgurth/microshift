@@ -11,7 +11,8 @@ spec:
         matchExpressions:
         - key: product.open-cluster-management.io
           operator: In
-          values: Microshift
+          values:
+            - Microshift
 ---
 apiVersion: policy.open-cluster-management.io/v1
 kind: PlacementBinding

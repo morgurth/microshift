@@ -1,26 +1,27 @@
 apiVersion: policy.open-cluster-management.io/v1
 kind: PolicyGenerator
 metadata:
-  name: gitops-policy-generator
+  name: microshift-gitops-policy-generator
 policyDefaults:
   namespace: acm-policies
   remediationAction: enforce
 placementBindingDefaults:
   name: "binding-policy-gitops"
 policies:
-  - name: policy-microshift-gitops
+  - name: microshift-gitops
     remediationAction: enforce
     manifests:
       - path: manifests/gitops/argocd
-  - name: policy-microshift-bootstrap
+  - name: microshift-bootstrap
     remediationAction: enforce
     manifests:
       - path: manifests/gitops/bootstrap
 policySets:
   - name: "microshift-gitops"
-    description: "Policy for bootstrapping cluster with gitops"
+    description: "Policy for bootstrapping Microshift with GitOps"
     policies:
-      - policy-microshift-gitops
+      - microshift-gitops
+      - microshift-bootstrap
     generatePolicySetPlacement: false
     placement:
-      name: placement-policy-microshift-gitops
+      name: placement-microshift-gitops
