@@ -8,7 +8,7 @@ metadata:
 spec:
   project: cluster-config
   source:
-    path: components/cert-issues/base
+    path: components/cert-issuers/base
     repoURL: https://github.com/gnunn-gitops/microshift
     targetRevision: HEAD
   destination:
