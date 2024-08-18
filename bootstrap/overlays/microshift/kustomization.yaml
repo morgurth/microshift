@@ -1,2 +1,11 @@
 resources:
 - ../../base
+
+patches:
+  - patch: |
+      - op: replace
+        path: /spec/source/path
+        value: clusters/microshift/components/certificates
+    target:
+      kind: Application
+      name: certificates
