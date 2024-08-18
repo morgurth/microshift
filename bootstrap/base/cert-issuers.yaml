@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "3"
+  name: cert-issuers
+  namespace: openshift-gitops
+spec:
+  project: cluster-config
+  source:
+    path: components/cert-issues/base
+    repoURL: https://github.com/gnunn-gitops/microshift
+    targetRevision: HEAD
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: cert-manager
+  syncPolicy:
+    automated:
+      selfHeal: true
