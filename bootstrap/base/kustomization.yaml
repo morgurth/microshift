@@ -3,3 +3,5 @@ namespace: openshift-gitops
 resources:
 - eso.yaml
 - cert-manager.yaml
+- cert-issuers.yaml
+- certificates.yaml
