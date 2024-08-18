@@ -27,10 +27,14 @@ logvol / --vgname=rhel --fstype=xfs --size=20000 --name=root
 
 %post --log=/var/log/anaconda/post-install.log --erroronfail
 
-# Configure ingress DNS for Microshift
-cat > /etc/microshift/config.yaml
+# Configure API and ingress DNS for Microshift
+cat > /etc/microshift/config.yaml << EOF
 dns:
-  baseDomain: microshift.ocplab.com
+  baseDomain: $HOSTNAME.ocplab.com
+apiServer:
+  subjectAltNames:
+  - api.$HOSTNAME.ocplab.com
+  - $(hostname -i)
 EOF
 
 # Add the pull secret to CRI-O and set root user-only read/write permissions

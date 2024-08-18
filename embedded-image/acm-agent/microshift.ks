@@ -6,7 +6,7 @@ reboot
 
 # Configure network to use DHCP and activate on boot
 # Note I am using DHCP to set hostname, if you cannot do that and just want to
-# to try things out simply add the --hostname to the end 
+# to try things out simply add the --hostname to the end
 network --bootproto=dhcp --device=link --activate --onboot=on
 
 # Configure ostree
@@ -27,10 +27,14 @@ logvol / --vgname=rhel --fstype=xfs --size=20000 --name=root
 
 %post --log=/var/log/anaconda/post-install.log --erroronfail
 
-# Configure ingress DNS for Microshift
+# Configure API and ingress DNS for Microshift
 cat > /etc/microshift/config.yaml << EOF
 dns:
   baseDomain: $HOSTNAME.ocplab.com
+apiServer:
+  subjectAltNames:
+  - api.$HOSTNAME.ocplab.com
+  - $(hostname -i)
 EOF
 
 # Add the pull secret to CRI-O and set root user-only read/write permissions
