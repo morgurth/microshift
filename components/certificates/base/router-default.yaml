@@ -1,3 +1,9 @@
+# Microshift has no official support for using a new wildcard cert,
+# if you change the secret used by the deployment it will get reverted
+# by microshift on a restart. This yaml uses SSA to enforce the secret
+# we want generated from the cert-manager Certificate
+#
+# See: https://issues.redhat.com/browse/RFE-6183
 apiVersion: apps/v1
 kind: Deployment
 metadata:
