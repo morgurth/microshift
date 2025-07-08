@@ -5,10 +5,10 @@ patches:
   - patch: |
       - op: replace
         path: /spec/dnsNames/0
-        value: "*.apps.microshift.ocplab.com"
+        value: "*.apps.microshift.morgurth.com"
       - op: replace
         path: /spec/commonName
-        value: "*.apps.microshift.ocplab.com"
+        value: "*.apps.microshift.morgurth.com"
     target:
       kind: Certificate
       name: openshift-wildcard
