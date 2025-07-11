@@ -2,6 +2,6 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-  - letsencrypt-aws-external.yaml
+  #- letsencrypt-aws-external.yaml
   - letsencrypt-staging-cluster-issuer.yaml
-  - letsencrypt-prod-cluster-issuer.yaml
+  #- letsencrypt-prod-cluster-issuer.yaml
