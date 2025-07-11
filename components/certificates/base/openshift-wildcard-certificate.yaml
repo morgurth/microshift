@@ -6,7 +6,7 @@ metadata:
 spec:
   secretName: openshift-wildcard-certificate
   issuerRef:
-    name: letsencrypt-prod
+    name: letsencrypt-staging
     kind: ClusterIssuer
   commonName: '*.${SUB_DOMAIN}'
   dnsNames:
