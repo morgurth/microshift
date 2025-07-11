@@ -5,6 +5,6 @@ resources:
 - eso.yaml
 - cert-manager.yaml
 - cert-issuers.yaml
-#- certificates.yaml
+- certificates.yaml
 # Application
 #- product-catalog.yaml
