@@ -2,7 +2,7 @@ namespace: openshift-gitops
 
 resources:
 # Cluster Infrastructure with External Secrets and Cert-Manager
-#- eso.yaml
+- eso.yaml
 - cert-manager.yaml
 - cert-issuers.yaml
 #- certificates.yaml
