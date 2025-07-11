@@ -4,7 +4,7 @@ resources:
 # Cluster Infrastructure with External Secrets and Cert-Manager
 #- eso.yaml
 - cert-manager.yaml
-#- cert-issuers.yaml
+- cert-issuers.yaml
 #- certificates.yaml
 # Application
 #- product-catalog.yaml

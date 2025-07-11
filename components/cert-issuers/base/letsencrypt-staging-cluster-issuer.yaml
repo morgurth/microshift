@@ -7,19 +7,11 @@ metadata:
 spec:
   acme:
     server: https://acme-staging-v02.api.letsencrypt.org/directory
-    email: gnunn@redhat.com
+    email: morgurth@gmail.com
     # This key doesn't exist, cert-manager creates it
     privateKeySecretRef:
-      name: gnunn-redhat-issuer-account-key
+      name: letsencrypt-staging
     solvers:
-    - selector:
-        dnsZones:
-          - "ocplab.com"
-      dns01:
-        route53:
-          region: ca-central-1
-          accessKeyID: AKIAVW7HGAZVWLIKXRCA
-          hostedZoneID: Z1LKUX3GLO9GW9
-          secretAccessKeySecretRef:
-            name: letsencrypt-aws
-            key: secret-access-key
+    - http01:
+        ingress: 
+          name: web-ingress

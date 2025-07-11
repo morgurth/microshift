@@ -133,7 +133,7 @@ spec:
   project: cluster-config
   source:
     path: bootstrap/microshift/base
-    repoURL:  https://github.com/gnunn-gitops/microshift.git
+    repoURL:  https://github.com/morgurth/microshift.git
     targetRevision: HEAD
   syncPolicy:
     automated:

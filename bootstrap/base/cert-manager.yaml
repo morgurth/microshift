@@ -16,7 +16,7 @@ spec:
       valuesObject:
         installCRDs: true
         ingressShim:
-          defaultIssuerName: letsencrypt-prod
+          defaultIssuerName: letsencrypt-staging
           defaultIssuerKind: ClusterIssuer
         global:
           leaderElection:
