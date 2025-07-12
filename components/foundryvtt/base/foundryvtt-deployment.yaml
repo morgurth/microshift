@@ -18,6 +18,8 @@ spec:
       labels:
         app: foundryvtt
     spec:
+      securityContext:
+        runAsUser: 1001
       containers:
         - name: foundryvtt-web
           image: mbround18/foundryvtt-docker:latest
@@ -37,6 +39,9 @@ spec:
           volumeMounts:
             - name: foundryvtt-data-persistent-storage
               mountPath: /foundrydata
+          securityContext:
+            allowPrivilegeEscalation: true
+        
       volumes:
         - name: foundryvtt-data-persistent-storage
           persistentVolumeClaim:
