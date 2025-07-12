@@ -33,6 +33,10 @@ spec:
               value: "4444"
             - name: SSL_PROXY
               value: "true"
+            - name: DATA_DIR
+              value: "/foundrydata"
+            - name: TARGET_DIR
+              value: "foundryvtt"
           ports:
             - name: web
               containerPort: 4444
