@@ -14,4 +14,4 @@ spec:
   ports:
     - name: web
       port: 80
-      targetPort: 30000
+      targetPort: 4444

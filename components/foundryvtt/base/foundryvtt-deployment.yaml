@@ -30,12 +30,12 @@ spec:
                   name: foundryvtt-env
                   key: APPLICATION_HOST
             - name: APPLICATION_PORT
-              value: "30000"
+              value: "4444"
             - name: SSL_PROXY
               value: "true"
           ports:
             - name: web
-              containerPort: 30000
+              containerPort: 4444
           volumeMounts:
             - name: foundryvtt-data-persistent-storage
               mountPath: /foundrydata
