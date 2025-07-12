@@ -12,6 +12,12 @@ spec:
     privateKeySecretRef:
       name: letsencrypt-staging
     solvers:
-    - http01:
-        ingress: 
-          name: web-ingress
+    #- http01:
+    #    ingress: 
+    #      name: web-ingress
+    - dns01:
+        cloudDNS:
+          project: graphite-space-283919
+          serviceAccountSecretRef:
+            name: clouddns-dns01-solver-svc-acct
+            key: key.json
