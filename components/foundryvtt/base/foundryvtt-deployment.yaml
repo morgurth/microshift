@@ -43,7 +43,7 @@ spec:
                   key: FOUNDRY_PASSWORD
             - name: FOUNDRY_PROXY_SSL
               value: "true"
-            - name: FOUNDRY_PRESERVE_CONFIG
+            - name: CONTAINER_PRESERVE_CONFIG
               value: "true"
             #- name: APPLICATION_PORT
             #  value: "4444"
