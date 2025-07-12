@@ -1,0 +1,61 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: foundryvtt
+  name: foundryvtt
+  labels:
+    app: foundryvtt
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: foundryvtt
+  template:
+    metadata:
+      labels:
+        app: foundryvtt
+    spec:
+      containers:
+        - name: foundryvtt-web
+          image: mbround18/foundryvtt-docker:latest
+          env:
+            - name: APPLICATION_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: foundryvtt-env
+                  key: APPLICATION_HOST
+            - name: APPLICATION_PORT
+              value: "4444"
+            - name: SSL_PROXY
+              value: "true"
+          ports:
+            - name: web
+              containerPort: 4444
+          volumeMounts:
+            - name: foundryvtt-data-persistent-storage
+              mountPath: /foundrydata
+        - name: foundryvtt-ftp
+          image: atmoz/sftp
+          env:
+            - name: FTP_USER
+              value: gm
+            - name: FTP_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: foundryvtt-env
+                  key: FTP_PASS
+          command: []
+          args: ["$(FTP_USER):$(FTP_PASS):1001:95687:foundryvtt-data"]
+          ports:
+            - name: sftp
+              containerPort: 22
+          volumeMounts:
+            - name: foundryvtt-data-persistent-storage
+              mountPath: /home/gm/foundryvtt-data
+      volumes:
+        - name: foundryvtt-data-persistent-storage
+          persistentVolumeClaim:
+            claimName: foundryvtt-data-pv-claim

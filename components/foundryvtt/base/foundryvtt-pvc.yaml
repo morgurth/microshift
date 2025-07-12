@@ -4,6 +4,8 @@ kind: PersistentVolumeClaim
 metadata:
   name: foundryvtt-data-pv-claim
   namespace: foundryvtt
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
 spec:
   accessModes:
     - ReadWriteOnce

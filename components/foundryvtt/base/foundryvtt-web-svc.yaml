@@ -1,0 +1,17 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: foundryvtt-web
+  labels:
+    name: foundryvtt-web
+  namespace: foundryvtt
+  annotations:
+    argocd.argoproj.io/sync-wave: "3"
+spec:
+  selector:
+    app: foundryvtt
+  ports:
+    - name: web
+      port: 80
+      targetPort: 4444
