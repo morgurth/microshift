@@ -1,3 +1,4 @@
+---
 apiVersion: route.openshift.io/v1
 kind: Route
 metadata:
@@ -7,6 +8,7 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "4"
 spec:
+  host: foundryvtt.apps.morgurth.com
   port:
     targetPort: web
   to:
