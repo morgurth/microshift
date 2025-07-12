@@ -1,0 +1,17 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: foundryvtt
+  labels:
+    app: foundryvtt
+  annotations:
+    argocd.argoproj.io/sync-wave: "4"
+spec:
+  port:
+    targetPort: web
+  to:
+    kind: Service
+    name: foundryvtt-web
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect

@@ -5,3 +5,4 @@ resources:
   - foundryvtt-pvc.yaml
   - foundryvtt-deployment.yaml
   - foundryvtt-web-svc.yaml
+  - foundryvtt-route.yaml
