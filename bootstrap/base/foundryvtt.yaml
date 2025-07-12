@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "20"
+  name: foundryvtt
+  namespace: openshift-gitops
+spec:
+  project: cluster-config
+  source:
+    path: components/foundryvtt/base
+    repoURL: https://github.com/morgurth/microshift
+    targetRevision: HEAD
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: foundryvtt
+  syncPolicy:
+    automated:
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true

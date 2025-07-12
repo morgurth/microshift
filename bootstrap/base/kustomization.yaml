@@ -8,3 +8,4 @@ resources:
 - certificates.yaml
 # Application
 #- product-catalog.yaml
+- foundryvtt.yaml
