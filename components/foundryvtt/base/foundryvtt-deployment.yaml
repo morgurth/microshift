@@ -41,6 +41,11 @@ spec:
                 secretKeyRef:
                   name: foundryvtt-env
                   key: FOUNDRY_PASSWORD
+            - name: FOUNDRY_ADMIN_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: foundryvtt-env
+                  key: FOUNDRY_ADMIN_KEY
             - name: FOUNDRY_PROXY_SSL
               value: "true"
             - name: CONTAINER_PRESERVE_CONFIG
