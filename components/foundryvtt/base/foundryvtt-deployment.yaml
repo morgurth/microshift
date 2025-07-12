@@ -22,26 +22,39 @@ spec:
         runAsUser: 1000
       containers:
         - name: foundryvtt-web
-          image: mbround18/foundryvtt-docker:latest
+          #image: mbround18/foundryvtt-docker:latest
+          image: felddy/foundryvtt:13
           env:
-            - name: APPLICATION_HOST
+            #- name: APPLICATION_HOST
+            - name: FOUNDRY_HOSTNAME
               valueFrom:
                 secretKeyRef:
                   name: foundryvtt-env
-                  key: APPLICATION_HOST
-            - name: APPLICATION_PORT
-              value: "4444"
-            - name: SSL_PROXY
+                  key: FOUNDRY_HOSTNAME
+            - name: FOUNDRY_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: foundryvtt-env
+                  key: FOUNDRY_USERNAME
+            - name: FOUNDRY_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: foundryvtt-env
+                  key: FOUNDRY_PASSWORD
+            - name: FOUNDRY_PROXY_SSL
               value: "true"
+            - name: FOUNDRY_PRESERVE_CONFIG
+              value: "true"
+            #- name: APPLICATION_PORT
+            #  value: "4444"
+            #- name: SSL_PROXY
+            #  value: "true"
           ports:
             - name: web
-              containerPort: 4444
+              containerPort: 30000
           volumeMounts:
             - name: foundryvtt-data-persistent-storage
-              mountPath: /foundrydata
-          securityContext:
-            allowPrivilegeEscalation: true
-        
+              mountPath: /data
       volumes:
         - name: foundryvtt-data-persistent-storage
           persistentVolumeClaim:
