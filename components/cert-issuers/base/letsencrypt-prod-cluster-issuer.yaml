@@ -13,6 +13,9 @@ spec:
     privateKeySecretRef: 
       name: letsencrypt-zetatech
     solvers:
-    - http01:
-        ingress:
-          name: 
+    - dns01:
+        cloudDNS:
+          project: graphite-space-283919
+          serviceAccountSecretRef:
+            name: clouddns-dns01-solver-svc-acct
+            key: key.json
