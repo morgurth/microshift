@@ -19,7 +19,7 @@ spec:
         app: foundryvtt
     spec:
       securityContext:
-        runAsUser: 1001
+        runAsUser: 1000
       containers:
         - name: foundryvtt-web
           image: mbround18/foundryvtt-docker:latest
