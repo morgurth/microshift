@@ -30,7 +30,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: blinko-website
-                  key: nextauth-secret
+                  key: NEXTAUTH_SECRET
             - name: NEXT_PUBLIC_BASE_URL
               value: http://blinko.apps.morgurth.com
             - name: NODE_ENV
