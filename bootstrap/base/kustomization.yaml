@@ -7,5 +7,5 @@ resources:
 - cert-issuers.yaml
 - certificates.yaml
 # Application
-#- product-catalog.yaml
+- blinko.yaml
 - foundryvtt.yaml
