@@ -4,7 +4,7 @@ kind: Kustomization
 resources:
   - blinko-pvc.yaml
   - blinko-deployment.yaml
-  - blinko-svc.yaml
+  - blinko-service.yaml
   - blinko-route.yaml
   - postgres-pvc.yaml
   - postgres-deployment.yaml
