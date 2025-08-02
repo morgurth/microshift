@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "3"
+  labels:
+    io.kompose.service: blinko-website
+  name: blinko-website
+  namespace: blinko
+spec:
+  ports:
+    - name: "1111"
+      port: 1111
+      targetPort: 1111
+  selector:
+    io.kompose.service: blinko-website

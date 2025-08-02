@@ -1,0 +1,19 @@
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: blinko
+  labels:
+    app: blinko
+  annotations:
+    argocd.argoproj.io/sync-wave: "4"
+spec:
+  host: blinko.apps.morgurth.com
+  port:
+    targetPort: web
+  to:
+    kind: Service
+    name: 1111
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect

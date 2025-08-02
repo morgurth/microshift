@@ -1,0 +1,11 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - blinko-pvc.yaml
+  - blinko-deployment.yaml
+  - blinko-svc.yaml
+  - blinko-route.yaml
+  - postgres-pvc.yaml
+  - postgres-deployment.yaml
+  - postgres-service.yaml
