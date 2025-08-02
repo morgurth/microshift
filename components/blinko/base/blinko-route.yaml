@@ -10,10 +10,10 @@ metadata:
 spec:
   host: blinko.apps.morgurth.com
   port:
-    targetPort: 1111
+    targetPort: blinko
   to:
     kind: Service
-    name: "1111"
+    name: blinko-website
   tls:
     termination: edge
     insecureEdgeTerminationPolicy: Redirect

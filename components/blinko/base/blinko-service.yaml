@@ -9,8 +9,8 @@ metadata:
   namespace: blinko
 spec:
   ports:
-    - name: "1111"
-      port: 1111
+    - name: "blinko"
+      port: 80
       targetPort: 1111
   selector:
     io.kompose.service: blinko-website
