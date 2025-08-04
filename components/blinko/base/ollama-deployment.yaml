@@ -23,7 +23,7 @@ spec:
         - image: ollama/ollama
           name: ollama
           volumeMounts:
-            - mountPath: /root/.blinko
+            - mountPath: /root/.ollama
               name: ollama-claim0
           ports:
             - containerPort: 11434
