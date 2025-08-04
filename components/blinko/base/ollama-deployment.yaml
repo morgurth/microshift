@@ -20,7 +20,7 @@ spec:
         io.kompose.service: ollama
     spec:
       containers:
-          image: ollama/ollama
+        - image: ollama/ollama
           name: ollama
           volumeMounts:
             - mountPath: /root/.blinko
