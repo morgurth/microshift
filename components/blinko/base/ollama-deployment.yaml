@@ -23,8 +23,9 @@ spec:
         - image: ollama/ollama
           name: ollama
           volumeMounts:
-            - mountPath: /.ollama
+            - mountPath: /
               name: ollama-claim0
+              subPath: .ollama
           ports:
             - containerPort: 11434
               protocol: TCP
