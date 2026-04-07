@@ -20,7 +20,7 @@ spec:
         io.kompose.service: ollama
     spec:
       containers:
-        - image: ollama/ollama
+        - image: ollama/ollama:latest
           name: ollama
           volumeMounts:
             - mountPath: /
@@ -29,6 +29,7 @@ spec:
           ports:
             - containerPort: 11434
               protocol: TCP
+              name: http
       restartPolicy: Always
       volumes:
         - name: ollama-claim0

@@ -23,7 +23,7 @@ spec:
       containers:
         - name: foundryvtt-web
           #image: mbround18/foundryvtt-docker:latest
-          image: felddy/foundryvtt:13
+          image: felddy/foundryvtt:latest
           env:
             #- name: APPLICATION_HOST
             - name: FOUNDRY_HOSTNAME
