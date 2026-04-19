@@ -9,3 +9,5 @@ data:
   SERVER_NAME: "Morgurth's Pirate Archipelago"
   MAX_PLAYERS: "2"
   UPDATE_ON_START: "true"
+  PUID: 1000
+  PGID: 1000
