@@ -9,3 +9,4 @@ resources:
 # Application
 - blinko.yaml
 - foundryvtt.yaml
+- windrose.yaml

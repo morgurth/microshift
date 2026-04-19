@@ -1,0 +1,51 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: windrose
+  name: windrose
+  labels:
+    app: windrose
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: windrose
+  template:
+    metadata:
+      labels:
+        app: windrose
+    spec:
+      hostNetwork: true
+      terminationGracePeriodSeconds: 30
+      containers:
+        - name: windrose
+          image: indifferentbroccoli/windrose-server-docker:latest
+          resources:
+            limits:
+              memory: "6Gi"
+            requests:
+              memory: "4Gi"
+          envFrom:
+            - secretRef:
+                name: windrose-secrets
+            - configMapRef:
+                name: windrose-config
+          ports:
+            - name: game-port
+              containerPort: 7777
+              protocol: UDP
+            - name: query-port
+              containerPort: 7778
+              protocol: UDP
+          volumeMounts:
+            - name: server-files
+              mountPath: /home/steam/server-files
+      volumes:
+        - name: server-files
+          persistentVolumeClaim:
+            claimName: windrose-pvc
