@@ -25,6 +25,9 @@ spec:
       containers:
         - name: windrose
           image: indifferentbroccoli/windrose-server-docker:latest
+          securityContext:
+            privileged: true
+            runAsUser: 0
           resources:
             limits:
               memory: "6Gi"
