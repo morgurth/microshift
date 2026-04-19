@@ -32,7 +32,7 @@ spec:
               memory: "4Gi"
           envFrom:
             - secretRef:
-                name: windrose-secrets
+                name: windrose-secret
             - configMapRef:
                 name: windrose-config
           ports:
