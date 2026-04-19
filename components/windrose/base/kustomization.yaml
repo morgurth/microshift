@@ -6,4 +6,4 @@ namespace: windrose
 resources:
   - windrose-pvc.yaml
   - windrose-deployment.yaml
-  - windrose-cm.yaml
+  - windrose-cm
