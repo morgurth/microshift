@@ -21,9 +21,9 @@ spec:
         app: windrose
     spec:
       terminationGracePeriodSeconds: 30
+      hostNetwork: false
       containers:
         - name: windrose
-          hostNetwork: false
           image: indifferentbroccoli/windrose-server-docker:latest
           securityContext:
             privileged: true
