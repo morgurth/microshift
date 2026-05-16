@@ -24,7 +24,7 @@ spec:
       hostAliases:
       - ip: "127.0.0.1"
         hostnames:
-        - "r5coopapigateway-ru-release.windrose.support"
+        - "r5coopapigateway-eu-release.windrose.support"
       terminationGracePeriodSeconds: 30
       containers:
         - name: windrose
@@ -45,6 +45,8 @@ spec:
           env:
             - name: WINE_NET_STRIP_IPv6
               value: "1"
+            - name: USER_SELECTED_REGION
+              value: "EU"
           ports:
             - name: game-port
               containerPort: 7777
