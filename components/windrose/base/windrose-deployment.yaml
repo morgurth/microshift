@@ -23,7 +23,7 @@ spec:
       terminationGracePeriodSeconds: 30
       containers:
         - name: windrose
-          hostNetworks: false
+          hostNetwork: false
           image: indifferentbroccoli/windrose-server-docker:latest
           securityContext:
             privileged: true
@@ -52,9 +52,11 @@ spec:
           ports:
             - name: game-port
               containerPort: 7777
+              hostPort: 7777
               protocol: UDP
             - name: query-port
               containerPort: 7778
+              hostPort: 7778
               protocol: UDP
           volumeMounts:
             - name: server-files
