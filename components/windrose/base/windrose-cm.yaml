@@ -6,7 +6,7 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "1"
 data:
-  SERVER_NAME: "Morgurth's Pirate Archipelago"
+  SERVER_NAME: "Morgurths Pirate Archipelago"
   MAX_PLAYERS: "2"
   UPDATE_ON_START: "true"
   PUID: "1000"
