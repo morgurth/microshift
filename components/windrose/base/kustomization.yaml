@@ -7,3 +7,4 @@ resources:
   - windrose-pvc.yaml
   - windrose-deployment.yaml
   - windrose-cm.yaml
+  - windrose-svc.yaml

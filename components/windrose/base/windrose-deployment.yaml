@@ -20,7 +20,6 @@ spec:
       labels:
         app: windrose
     spec:
-      hostNetwork: true
       terminationGracePeriodSeconds: 30
       containers:
         - name: windrose
