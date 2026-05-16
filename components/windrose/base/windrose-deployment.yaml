@@ -46,6 +46,8 @@ spec:
               value: "EU"
             - name: P2P_PROXY_ADDRESS
               value: "127.0.0.1"
+            - name: DIRECT_CONNECTION_SERVER_ADDRESS
+              value: "192.168.50.75"
             - name: USE_DIRECT_CONNECTION
               value: "true"
             - name: DIRECT_CONNECTION_SERVER_PORT
