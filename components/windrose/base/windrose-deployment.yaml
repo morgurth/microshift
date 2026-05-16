@@ -21,6 +21,10 @@ spec:
         app: windrose
     spec:
       hostNetwork: true
+      hostAliases:
+      - ip: "127.0.0.1"
+        hostnames:
+        - "r5coopapigateway-ru-release.windrose.support"
       terminationGracePeriodSeconds: 30
       containers:
         - name: windrose
@@ -39,8 +43,6 @@ spec:
             - configMapRef:
                 name: windrose-config
           env:
-            - name: P2P_PROXY_ADDRESS
-              value: "192.168.50.75"
             - name: WINE_NET_STRIP_IPv6
               value: "1"
           ports:
