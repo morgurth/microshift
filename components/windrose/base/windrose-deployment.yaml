@@ -25,16 +25,6 @@ spec:
       containers:
         - name: windrose
           image: indifferentbroccoli/windrose-server-docker:latest
-          command: ["/bin/bash", "-c"]
-          args:
-            - |
-              echo "Injecting direct execution variables..."
-              export DIRECT_CONNECT=true
-              export ADDITIONAL_ARGS="-Multihome=0.0.0.0"
-              export GAME_PARAMS="-Multihome=0.0.0.0 -nullrhi -nosound"
-          
-              # Force the native initialization script to run with these variables active
-              exec /home/steam/server/init.sh
           securityContext:
             privileged: true
             runAsUser: 0
@@ -49,12 +39,10 @@ spec:
             - configMapRef:
                 name: windrose-config
           env:
-            - name: GAME_PARAMS
-              value: "-Multihome=0.0.0.0 -nullrhi -nosound"
-            - name: ADDITIONAL_ARGS
-              value: "-Multihome=0.0.0.0"
-            - name: DIRECT_CONNECT
-              value: "true"
+            - name: P2P_PROXY_ADDRESS
+              value: "192.168.50.75"
+            - name: WINE_NET_STRIP_IPv6
+              value: "1"
           ports:
             - name: game-port
               containerPort: 7777
