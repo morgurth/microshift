@@ -21,10 +21,6 @@ spec:
         app: windrose
     spec:
       hostNetwork: true
-      hostAliases:
-      - ip: "127.0.0.1"
-        hostnames:
-        - "r5coopapigateway-eu-release.windrose.support"
       terminationGracePeriodSeconds: 30
       containers:
         - name: windrose
