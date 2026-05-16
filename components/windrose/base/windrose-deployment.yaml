@@ -38,6 +38,11 @@ spec:
                 name: windrose-secret
             - configMapRef:
                 name: windrose-config
+          env:
+          - name: ENGINE_ARGUMENTS
+            value: "-Multihome=0.0.0.0"
+          - name: WINE_NET_STRIP_IPv6
+            value: "1"  
           ports:
             - name: game-port
               containerPort: 7777
