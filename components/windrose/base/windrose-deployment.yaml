@@ -28,6 +28,7 @@ spec:
       terminationGracePeriodSeconds: 30
       containers:
         - name: windrose
+          hostNetworks: true
           image: indifferentbroccoli/windrose-server-docker:latest
           securityContext:
             privileged: true
