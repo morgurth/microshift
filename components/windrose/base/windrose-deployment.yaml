@@ -39,12 +39,12 @@ spec:
             - configMapRef:
                 name: windrose-config
           env:
-          - name: ENGINE_ARGUMENTS
-            value: "-Multihome=0.0.0.0 -nullrhi -nosound"
-          - name: WINE_NET_STRIP_IPv6
-            value: "1" 
-          - name: DISPLAY
-            value: ":99" 
+            - name: GAME_PARAMS
+              value: "-Multihome=0.0.0.0 -nullrhi -nosound"
+            - name: ADDITIONAL_ARGS
+              value: "-Multihome=0.0.0.0"
+            - name: DIRECT_CONNECT
+              value: "true"
           ports:
             - name: game-port
               containerPort: 7777
