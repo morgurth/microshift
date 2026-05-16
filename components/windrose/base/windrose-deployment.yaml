@@ -45,7 +45,11 @@ spec:
             - name: USER_SELECTED_REGION
               value: "EU"
             - name: P2P_PROXY_ADDRESS
-              value: "192.168.50.75"
+              value: "127.0.0.1"
+            - name: USE_DIRECT_CONNECTION
+              value: "true"
+            - name: DIRECT_CONNECTION_SERVER_PORT
+              value: "7777"
           ports:
             - name: game-port
               containerPort: 7777
