@@ -26,11 +26,6 @@ spec:
         - name: windrose
           image: indifferentbroccoli/windrose-server-docker:latest
           command: ["/bin/bash", "-c"]
-          args:
-          - |
-            echo "Bypassing display lock with Xvfb as steam user..."
-            # xvfb-run creates a virtual frame buffer display environment
-            runuser -l steam -c "cd /home/steam/server-files && xvfb-run --auto-servernum wine ./WindroseServer.exe -Multihome=0.0.0.0 -Port=7777 -QueryPort=7778 -nullrhi -nosound -log"
           securityContext:
             privileged: true
             runAsUser: 0
@@ -46,9 +41,11 @@ spec:
                 name: windrose-config
           env:
           - name: ENGINE_ARGUMENTS
-            value: "-Multihome=0.0.0.0"
+            value: "-Multihome=0.0.0.0 -nullrhi -nosound"
           - name: WINE_NET_STRIP_IPv6
-            value: "1"  
+            value: "1" 
+          - name: DISPLAY
+            value: ":99" 
           ports:
             - name: game-port
               containerPort: 7777
