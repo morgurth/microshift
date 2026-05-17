@@ -49,21 +49,21 @@ spec:
             - name: USE_DIRECT_CONNECTION
               value: "true"
             - name: DIRECT_CONNECTION_SERVER_PORT
-              value: "30777"
+              value: "7777"
             - name: DIRECT_CONNECTION_SERVER_ADDRESS
               valueFrom:
                 fieldRef:
                   fieldPath: status.hostIP
             - name: SERVER_PORT
-              value: "30777"
+              value: "7777"
             - name: QUERY_PORT
-              value: "30778"
+              value: "7778"
           ports:
             - name: game-port
-              containerPort: 30777
+              containerPort: 7777
               protocol: UDP
             - name: query-port
-              containerPort: 30778
+              containerPort: 7778
               protocol: UDP
           volumeMounts:
             - name: server-files

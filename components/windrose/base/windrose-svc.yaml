@@ -4,15 +4,13 @@ metadata:
   name: windrose-lan
   namespace: windrose
 spec:
-  type: NodePort
+  type: ClusterIP
   selector:
     app: windrose
   ports:
   - name: game-udp
     protocol: UDP
-    port: 30777
-    nodePort: 30777
+    port: 7777
   - name: query-udp
     protocol: UDP
-    port: 30778
-    nodePort: 30778
+    port: 7778
