@@ -21,7 +21,8 @@ spec:
         app: windrose
     spec:
       terminationGracePeriodSeconds: 30
-      hostNetwork: false
+      hostNetwork: true
+      dnsPolicy: ClusterFirstWithHostNet
       containers:
         - name: windrose
           image: indifferentbroccoli/windrose-server-docker:latest
