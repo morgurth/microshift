@@ -34,6 +34,7 @@ spec:
                 sed -i 's/"DirectConnectionServerAddress": "[^"]*"/"DirectConnectionServerAddress": "'"${DIRECT_CONNECTION_SERVER_ADDRESS}"'"/' "$CONFIG_FILE"
                 sed -i 's/"DirectConnectionProxyAddress": "[^"]*"/"DirectConnectionProxyAddress": "'"${DIRECT_CONNECTION_PROXY_ADDRESS}"'"/' "$CONFIG_FILE"
               fi
+              sed -i 's/-w "/-w "DIRECT_CONNECTION_SERVER_ADDRESS,DIRECT_CONNECTION_SERVER_PORT,QUERY_PORT,STEAM_QUERY_PORT,/' init.sh
               exec ./init.sh
           securityContext:
             privileged: true
