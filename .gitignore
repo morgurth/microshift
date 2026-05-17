@@ -1,2 +1,3 @@
 .keys
 *-private.*
+/components/windrose/base/windrose-local-cm.yaml

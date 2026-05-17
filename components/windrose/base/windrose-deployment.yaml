@@ -39,19 +39,17 @@ spec:
                 name: windrose-secret
             - configMapRef:
                 name: windrose-config
+            - configMapRef:
+                name: windrose-local-config
           env:
             - name: WINE_NET_STRIP_IPv6
               value: "1"
             - name: USER_SELECTED_REGION
               value: "EU"
-            - name: P2P_PROXY_ADDRESS
-              value: "0.0.0.0"
             - name: USE_DIRECT_CONNECTION
               value: "true"
             - name: DIRECT_CONNECTION_SERVER_PORT
               value: "7777"
-            - name: DIRECT_CONNECTION_SERVER_ADDRESS
-              value: "192.168.50.75"
             - name: SERVER_PORT
               value: "7777"
             - name: QUERY_PORT
