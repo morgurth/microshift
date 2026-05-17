@@ -32,6 +32,7 @@ spec:
               CONFIG_FILE="/home/steam/server-files/R5/ServerDescription.json"
               if [ -f "$CONFIG_FILE" ]; then
                 sed -i 's/"DirectConnectionServerAddress": "[^"]*"/"DirectConnectionServerAddress": "'"${DIRECT_CONNECTION_SERVER_ADDRESS}"'"/' "$CONFIG_FILE"
+                sed -i 's/"DirectConnectionProxyAddress": "[^"]*"/"DirectConnectionProxyAddress": "'"${DIRECT_CONNECTION_PROXY_ADDRESS}"'"/' "$CONFIG_FILE"
               fi
               exec ./init.sh
           securityContext:
