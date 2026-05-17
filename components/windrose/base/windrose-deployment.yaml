@@ -48,15 +48,13 @@ spec:
             - name: USE_DIRECT_CONNECTION
               value: "true"
             - name: DIRECT_CONNECTION_SERVER_PORT
-              value: "7777"
+              value: "30777"
           ports:
             - name: game-port
               containerPort: 7777
-              hostPort: 7777
               protocol: UDP
             - name: query-port
               containerPort: 7778
-              hostPort: 7778
               protocol: UDP
           volumeMounts:
             - name: server-files

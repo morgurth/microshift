@@ -12,3 +12,7 @@ spec:
     protocol: UDP
     port: 7777
     nodePort: 30777
+  - name: query-udp
+    protocol: UDP
+    port: 7778
+    nodePort: 30778
