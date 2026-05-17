@@ -14,3 +14,6 @@ spec:
   - name: query-udp
     protocol: UDP
     port: 7778
+  - name: steam-udp
+    protocol: UDP
+    port: 27015

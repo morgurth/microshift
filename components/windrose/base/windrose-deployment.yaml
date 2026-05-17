@@ -51,19 +51,22 @@ spec:
             - name: DIRECT_CONNECTION_SERVER_PORT
               value: "7777"
             - name: DIRECT_CONNECTION_SERVER_ADDRESS
-              valueFrom:
-                fieldRef:
-                  fieldPath: status.hostIP
+              value: "192.168.50.75"
             - name: SERVER_PORT
               value: "7777"
             - name: QUERY_PORT
               value: "7778"
+            - name: STEAM_QUERY_PORT
+              value: "27015"
           ports:
             - name: game-port
               containerPort: 7777
               protocol: UDP
             - name: query-port
               containerPort: 7778
+              protocol: UDP
+            - name: steam-query
+              containerPort: 27015
               protocol: UDP
           volumeMounts:
             - name: server-files
