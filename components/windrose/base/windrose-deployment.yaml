@@ -26,6 +26,11 @@ spec:
       containers:
         - name: windrose
           image: indifferentbroccoli/windrose-server-docker:latest
+          command: ["/bin/bash", "-c"]
+          args:
+            - |
+              sed -i 's/-w "/-w "DIRECT_CONNECTION_SERVER_ADDRESS,DIRECT_CONNECTION_SERVER_PORT,QUERY_PORT,STEAM_QUERY_PORT,/' init.sh
+              exec ./init.sh
           securityContext:
             privileged: true
             runAsUser: 0
