@@ -55,7 +55,7 @@ spec:
                 name: windrose-local-config
           env:
             - name: WINE_NET_STRIP_IPv6
-              value: "1"
+              value: "0"
             - name: USER_SELECTED_REGION
               value: "EU"
             - name: USE_DIRECT_CONNECTION
