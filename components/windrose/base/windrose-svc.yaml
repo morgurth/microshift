@@ -11,6 +11,9 @@ spec:
   - name: game-udp
     protocol: UDP
     port: 7777
+  - name: game-tcp
+    protocol: TCP
+    port: 7777
   - name: query-udp
     protocol: UDP
     port: 7778
