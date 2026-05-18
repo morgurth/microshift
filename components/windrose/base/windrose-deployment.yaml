@@ -32,7 +32,7 @@ spec:
             - |
               CONFIG_FILE="/home/steam/server-files/R5/ServerDescription.json"
               if [ -f "$CONFIG_FILE" ]; then
-                sed -i 's/"DirectConnectionServerAddress": "[^"]*"/"DirectConnectionServerAddress": "'"${DIRECT_CONNECTION_SERVER_ADDRESS}"'"/' "$CONFIG_FILE"
+                sed -i 's/"DirectConnectionServerAddress": "[^"]*"/"DirectConnectionServerAddress": "0.0.0.0"/' "$CONFIG_FILE"
                 sed -i 's/"DirectConnectionProxyAddress": "[^"]*"/"DirectConnectionProxyAddress": "'"${DIRECT_CONNECTION_PROXY_ADDRESS}"'"/' "$CONFIG_FILE"
                 sed -i 's/"P2pProxyAddress": "[^"]*"/"P2pProxyAddress": "'"${P2P_PROXY_ADDRESS}"'"/' "$CONFIG_FILE"
               fi
@@ -55,7 +55,7 @@ spec:
                 name: windrose-local-config
           env:
             - name: WINE_NET_STRIP_IPv6
-              value: "0"
+              value: "1"
             - name: USER_SELECTED_REGION
               value: "EU"
             - name: USE_DIRECT_CONNECTION
