@@ -43,7 +43,7 @@ spec:
             runAsUser: 0
           resources:
             limits:
-              memory: "8Gi"
+              memory: "6Gi"
             requests:
               memory: "4Gi"
           envFrom:
