@@ -36,8 +36,10 @@ spec:
                 sed -i 's/"DirectConnectionProxyAddress": "[^"]*"/"DirectConnectionProxyAddress": "'"${DIRECT_CONNECTION_PROXY_ADDRESS}"'"/' "$CONFIG_FILE"
                 sed -i 's/"P2pProxyAddress": "[^"]*"/"P2pProxyAddress": "'"${P2P_PROXY_ADDRESS}"'"/' "$CONFIG_FILE"
               fi
-              sed -i 's/-w "/-w "DIRECT_CONNECTION_SERVER_ADDRESS,DIRECT_CONNECTION_SERVER_PORT,QUERY_PORT,STEAM_QUERY_PORT,/' init.sh
-              exec ./init.sh
+              echo "Bypassing default init wrapper to guarantee software rasterization..."
+              Xvfb :99 -screen 0 1024x768x16 &
+              sleep 2
+              exec wine64 /home/steam/server-files/R5/Binaries/Win64/WindroseServer-Win64-Shipping.exe -log -port=7777 -queryport=7778 -lanmode -bIsSecure=false -nullrhi
           securityContext:
             privileged: true
             runAsUser: 0
@@ -68,6 +70,12 @@ spec:
               value: "7778"
             - name: STEAM_QUERY_PORT
               value: "27015"
+            - name: DISPLAY
+              value: ":99"
+            - name: GALLIUM_DRIVER
+              value: "swrast"
+            - name: LIBGL_ALWAYS_SOFTWARE
+              value: "1"
           ports:
             - name: game-port
               containerPort: 7777
