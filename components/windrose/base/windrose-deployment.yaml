@@ -30,16 +30,26 @@ spec:
           command: ["/bin/bash", "-c"]
           args:
             - |
+              # 1. Create a wrapper for 'wine' to secretly inject our software rendering flags
+              mkdir -p /tmp/custom-bin
+              cat << 'EOF' > /tmp/custom-bin/wine
+              #!/bin/bash
+              exec /usr/bin/wine "$@" -port=7777 -queryport=7778 -lanmode -bIsSecure=false -nullrhi
+              EOF
+              chmod +x /tmp/custom-bin/wine
+              export PATH="/tmp/custom-bin:$PATH"
+
+              # 2. Set DirectConnectionServerAddress from configmap before start.sh runs
               CONFIG_FILE="/home/steam/server-files/R5/ServerDescription.json"
               if [ -f "$CONFIG_FILE" ]; then
-                sed -i 's/"DirectConnectionServerAddress": "[^"]*"/"DirectConnectionServerAddress": "'"${DIRECT_CONNECTION_SERVER_ADDRESS}"'"/' "$CONFIG_FILE"
-                sed -i 's/"DirectConnectionProxyAddress": "[^"]*"/"DirectConnectionProxyAddress": "'"${DIRECT_CONNECTION_PROXY_ADDRESS}"'"/' "$CONFIG_FILE"
-                sed -i 's/"P2pProxyAddress": "[^"]*"/"P2pProxyAddress": "'"${P2P_PROXY_ADDRESS}"'"/' "$CONFIG_FILE"
+                sed -i 's/"DirectConnectionServerAddress": "[^"]*"/"DirectConnectionServerAddress": "'"${DIRECT_CONNECTION_SERVER_ADDRESS}"'"/' "$CONFIG_FILE" || true
               fi
-              echo "Bypassing default init wrapper to guarantee software rasterization..."
-              Xvfb :99 -screen 0 1024x768x16 &
-              sleep 2
-              exec wine64 /home/steam/server-files/R5/Binaries/Win64/WindroseServer-Win64-Shipping.exe -log -port=7777 -queryport=7778 -lanmode -bIsSecure=false -nullrhi
+              
+              # 3. Whitelist custom proxy variables so init.sh passes them to start.sh
+              sed -i 's/-w "/-w "DIRECT_CONNECTION_PROXY_ADDRESS,P2P_PROXY_ADDRESS,QUERY_PORT,STEAM_QUERY_PORT,/' init.sh
+              
+              # 4. Execute the normal initialization
+              exec ./init.sh
           securityContext:
             privileged: true
             runAsUser: 0
@@ -76,6 +86,12 @@ spec:
               value: "swrast"
             - name: LIBGL_ALWAYS_SOFTWARE
               value: "1"
+            - name: WINEPREFIX
+              value: "/home/steam/.wine"
+            - name: WINEARCH
+              value: "win64"
+            - name: WINEDLLOVERRIDES
+              value: "mscoree,mshtml=;dwmapi=n,b"
           ports:
             - name: game-port
               containerPort: 7777
