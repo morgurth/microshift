@@ -34,7 +34,7 @@ spec:
               mkdir -p /tmp/custom-bin
               cat << 'EOF' > /tmp/custom-bin/wine
               #!/bin/bash
-              exec /usr/bin/wine "$@" -port=7777 -queryport=7778 -lanmode -bIsSecure=false -nullrhi
+              exec /usr/bin/wine "$@" -port=7777 -queryport=7778 -bIsSecure=false -nullrhi
               EOF
               chmod +x /tmp/custom-bin/wine
               export PATH="/tmp/custom-bin:$PATH"
