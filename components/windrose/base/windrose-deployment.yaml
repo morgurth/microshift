@@ -26,7 +26,7 @@ spec:
       dnsPolicy: ClusterFirstWithHostNet
       containers:
         - name: windrose
-          image: indifferentbroccoli/windrose-server-docker:latest
+          image: docker.io/indifferentbroccoli/windrose-server-docker:latest
           command: ["/bin/bash", "-c"]
           args:
             - |
