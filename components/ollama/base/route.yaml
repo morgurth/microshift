@@ -3,6 +3,8 @@ kind: Route
 metadata:
   name: ollama
   namespace: ollama
+  annotations:
+    haproxy.router.openshift.io/timeout: 5m
 spec:
   host: ollama.apps.morgurth.com
   to:
