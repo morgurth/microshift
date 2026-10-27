@@ -19,6 +19,35 @@ spec:
     spec:
       runtimeClassName: nvidia
       containers:
+      # Sidecar: Google OAuth + Bearer Token Gate
+      - name: oauth-proxy
+        image: quay.io/oauth2-proxy/oauth2-proxy:latest
+        args:
+          - --provider=google
+          - --http-address=0.0.0.0:4180
+          - --upstream=http://127.0.0.1:11434
+          - --email-domain=*
+          - --authenticated-emails-file=/etc/oauth2-proxy/authenticated_emails
+          - --cookie-secure=true
+          - --cookie-httponly=true
+          - --cookie-samesite=lax
+          - --pass-access-token=false
+          - --skip-provider-button=true
+          - --pass-authorization-header=true
+          - --skip-jwt-bearer-tokens=true
+          # Extra flag to accept direct Bearer token matching:
+          - --extra-jwt-issuers=https://accounts.google.com=ollama
+        envFrom:
+        - secretRef:
+            name: ollama-oauth-secret
+        ports:
+        - name: proxy
+          containerPort: 4180
+        volumeMounts:
+        - name: auth-emails
+          mountPath: /etc/oauth2-proxy
+
+      # Ollama Core
       - name: ollama
         image: docker.io/ollama/ollama:0.5.13
         imagePullPolicy: IfNotPresent
@@ -33,9 +62,9 @@ spec:
           value: "all"
         - name: NVIDIA_DRIVER_CAPABILITIES
           value: "compute,utility"
-        ports:
-        - name: http
-          containerPort: 11434
+        # Bind strictly to localhost so unauthenticated traffic inside pod cannot reach it
+        - name: OLLAMA_HOST
+          value: "127.0.0.1:11434"
         resources:
           limits:
             nvidia.com/gpu: "1"
@@ -48,7 +77,11 @@ spec:
         volumeMounts:
         - name: models
           mountPath: /root/.ollama
+
       volumes:
       - name: models
         persistentVolumeClaim:
           claimName: ollama-models
+      - name: auth-emails
+        configMap:
+          name: ollama-allowed-emails

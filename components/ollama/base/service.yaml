@@ -5,8 +5,8 @@ metadata:
   namespace: ollama
 spec:
   ports:
-  - name: http
-    port: 11434
-    targetPort: 11434
+  - name: proxy
+    port: 4180
+    targetPort: 4180
   selector:
     app: ollama
