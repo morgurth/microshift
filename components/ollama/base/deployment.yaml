@@ -29,15 +29,12 @@ spec:
           - --pass-host-header=false
           - --email-domain=*
           - --authenticated-emails-file=/etc/oauth2-proxy/authenticated_emails
+          - --htpasswd-file=/etc/oauth2-proxy/auth/htpasswd
           - --cookie-secure=true
           - --cookie-httponly=true
           - --cookie-samesite=lax
-          - --pass-access-token=false
           - --skip-provider-button=true
-          - --pass-authorization-header=true
-          - --skip-jwt-bearer-tokens=true
-          # Extra flag to accept direct Bearer token matching:
-          - --extra-jwt-issuers=https://accounts.google.com=ollama
+          - --pass-access-token=false
         envFrom:
         - secretRef:
             name: ollama-oauth-secret
@@ -47,6 +44,9 @@ spec:
         volumeMounts:
         - name: auth-emails
           mountPath: /etc/oauth2-proxy
+        - name: auth-htpasswd
+          mountPath: /etc/oauth2-proxy/auth
+          readOnly: true
 
       # Ollama Core
       - name: ollama
@@ -88,3 +88,6 @@ spec:
       - name: auth-emails
         configMap:
           name: ollama-allowed-emails
+      - name: auth-htpasswd
+        secret:
+          secretName: ollama-htpasswd
