@@ -26,6 +26,7 @@ spec:
           - --provider=google
           - --http-address=0.0.0.0:4180
           - --upstream=http://127.0.0.1:11434
+          - --pass-host-header=false
           - --email-domain=*
           - --authenticated-emails-file=/etc/oauth2-proxy/authenticated_emails
           - --cookie-secure=true
@@ -65,6 +66,8 @@ spec:
         # Bind strictly to localhost so unauthenticated traffic inside pod cannot reach it
         - name: OLLAMA_HOST
           value: "127.0.0.1:11434"
+        - name: OLLAMA_ORIGINS
+          value: "*"
         resources:
           limits:
             nvidia.com/gpu: "1"
