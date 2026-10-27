@@ -1,0 +1,15 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: ollama
+  namespace: ollama
+spec:
+  host: ollama.apps.morgurth.com
+  to:
+    kind: Service
+    name: ollama
+  port:
+    targetPort: http
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect
