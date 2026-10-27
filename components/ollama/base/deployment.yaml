@@ -20,7 +20,7 @@ spec:
       runtimeClassName: nvidia
       containers:
       - name: ollama
-        image: docker.io/ollama/ollama:latest
+        image: docker.io/ollama/ollama:0.5.13
         imagePullPolicy: IfNotPresent
         env:
         - name: OLLAMA_MODELS
@@ -33,12 +33,6 @@ spec:
           value: "all"
         - name: NVIDIA_DRIVER_CAPABILITIES
           value: "compute,utility"
-        - name: OLLAMA_LLM_LIBRARY
-          value: "cuda_v12"
-        - name: OLLAMA_SKIP_CUDA_COMPAT
-          value: "1"
-        - name: OLLAMA_CUDA_COMPAT
-          value: "1"
         ports:
         - name: http
           containerPort: 11434
