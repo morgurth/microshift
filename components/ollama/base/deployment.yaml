@@ -35,8 +35,8 @@ spec:
           - --cookie-samesite=lax
           - --skip-provider-button=true
           - --pass-access-token=false
-          - -cookie-expire=24h
-          - -cookie-refresh=5m
+          - --cookie-expire=24h
+          - --cookie-refresh=5m
         envFrom:
         - secretRef:
             name: ollama-oauth-secret
