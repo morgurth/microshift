@@ -19,80 +19,81 @@ spec:
     spec:
       runtimeClassName: nvidia
       containers:
-      # Sidecar: Google OAuth + Bearer Token Gate
-      - name: oauth-proxy
-        image: quay.io/oauth2-proxy/oauth2-proxy:latest
-        args:
-          - --provider=google
-          - --client-id=831557292298-6uaj5p3v9phm69iumj7tdhs9th6psujf.apps.googleusercontent.com
-          - --http-address=0.0.0.0:4180
-          - --upstream=http://127.0.0.1:11434
-          - --pass-host-header=false
-          - --email-domain=*
-          - --authenticated-emails-file=/etc/oauth2-proxy/authenticated_emails
-          - --htpasswd-file=/etc/oauth2-proxy/auth/htpasswd
-          - --cookie-secure=true
-          - --cookie-httponly=true
-          - --cookie-samesite=lax
-          - --skip-provider-button=true
-          - --pass-access-token=false
-          - --cookie-expire=24h
-          - --cookie-refresh=5m
-          - --skip-jwt-bearer-tokens=true
-          - --extra-jwt-issuers=https://accounts.google.com=831557292298-6uaj5p3v9phm69iumj7tdhs9th6psujf.apps.googleusercontent.com
-        envFrom:
-        - secretRef:
-            name: ollama-oauth-secret
-        ports:
-        - name: proxy
-          containerPort: 4180
-        volumeMounts:
-        - name: auth-emails
-          mountPath: /etc/oauth2-proxy
-        - name: auth-htpasswd
-          mountPath: /etc/oauth2-proxy/auth
-          readOnly: true
+        # Sidecar: Google OAuth + Bearer Token + Basic Auth Gate
+        - name: oauth-proxy
+          image: quay.io/oauth2-proxy/oauth2-proxy:latest
+          args:
+            - --provider=google
+            - --client-id=831557292298-6uaj5p3v9phm69iumj7tdhs9th6psujf.apps.googleusercontent.com
+            - --http-address=0.0.0.0:4180
+            - --upstream=http://127.0.0.1:11434
+            - --upstream-timeout=600s
+            - --pass-host-header=false
+            - --email-domain=*
+            - --authenticated-emails-file=/etc/oauth2-proxy/allowed/authenticated_emails
+            - --htpasswd-file=/etc/oauth2-proxy/auth/htpasswd
+            - --cookie-secure=true
+            - --cookie-httponly=true
+            - --cookie-samesite=lax
+            - --skip-provider-button=true
+            - --pass-access-token=false
+            - --cookie-expire=24h
+            - --cookie-refresh=5m
+            - --skip-jwt-bearer-tokens=true
+            - --extra-jwt-issuers=https://accounts.google.com=831557292298-6uaj5p3v9phm69iumj7tdhs9th6psujf.apps.googleusercontent.com
+          envFrom:
+            - secretRef:
+                name: ollama-oauth-secret
+          ports:
+            - name: proxy
+              containerPort: 4180
+          volumeMounts:
+            - name: auth-emails
+              mountPath: /etc/oauth2-proxy/allowed
+              readOnly: true
+            - name: auth-htpasswd
+              mountPath: /etc/oauth2-proxy/auth
+              readOnly: true
 
-      # Ollama Core
-      - name: ollama
-        image: docker.io/ollama/ollama:0.5.13
-        imagePullPolicy: IfNotPresent
-        env:
-        - name: OLLAMA_MODELS
-          value: "/root/.ollama/models"
-        - name: OLLAMA_KEEP_ALIVE
-          value: "24h"
-        - name: OLLAMA_NUM_PARALLEL
-          value: "1"
-        - name: NVIDIA_VISIBLE_DEVICES
-          value: "all"
-        - name: NVIDIA_DRIVER_CAPABILITIES
-          value: "compute,utility"
-        # Bind strictly to localhost so unauthenticated traffic inside pod cannot reach it
-        - name: OLLAMA_HOST
-          value: "127.0.0.1:11434"
-        - name: OLLAMA_ORIGINS
-          value: "*"
-        resources:
-          limits:
-            nvidia.com/gpu: "1"
-            memory: "10Gi"
-            cpu: "4000m"
-          requests:
-            nvidia.com/gpu: "1"
-            memory: "4Gi"
-            cpu: "1000m"
-        volumeMounts:
-        - name: models
-          mountPath: /root/.ollama
+        # Ollama Core
+        - name: ollama
+          image: docker.io/ollama/ollama:0.5.13
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: OLLAMA_MODELS
+              value: "/root/.ollama/models"
+            - name: OLLAMA_KEEP_ALIVE
+              value: "24h"
+            - name: OLLAMA_NUM_PARALLEL
+              value: "1"
+            - name: NVIDIA_VISIBLE_DEVICES
+              value: "all"
+            - name: NVIDIA_DRIVER_CAPABILITIES
+              value: "compute,utility"
+            - name: OLLAMA_HOST
+              value: "127.0.0.1:11434"
+            - name: OLLAMA_ORIGINS
+              value: "*"
+          resources:
+            limits:
+              nvidia.com/gpu: "1"
+              memory: "10Gi"
+              cpu: "4000m"
+            requests:
+              nvidia.com/gpu: "1"
+              memory: "4Gi"
+              cpu: "1000m"
+          volumeMounts:
+            - name: models
+              mountPath: /root/.ollama
 
       volumes:
-      - name: models
-        persistentVolumeClaim:
-          claimName: ollama-models
-      - name: auth-emails
-        configMap:
-          name: ollama-allowed-emails
-      - name: auth-htpasswd
-        secret:
-          secretName: ollama-htpasswd
+        - name: models
+          persistentVolumeClaim:
+            claimName: ollama-models
+        - name: auth-emails
+          configMap:
+            name: ollama-allowed-emails
+        - name: auth-htpasswd
+          secret:
+            secretName: ollama-htpasswd
