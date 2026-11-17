@@ -59,6 +59,10 @@ spec:
         - name: ollama
           image: docker.io/ollama/ollama:0.5.13
           imagePullPolicy: IfNotPresent
+          ports:
+            - name: http-ollama
+              containerPort: 11434
+              protocol: TCP
           env:
             - name: OLLAMA_MODELS
               value: "/root/.ollama/models"
@@ -71,7 +75,7 @@ spec:
             - name: NVIDIA_DRIVER_CAPABILITIES
               value: "compute,utility"
             - name: OLLAMA_HOST
-              value: "127.0.0.1:11434"
+              value: "0.0.0.0:11434"
             - name: OLLAMA_ORIGINS
               value: "*"
           resources:
